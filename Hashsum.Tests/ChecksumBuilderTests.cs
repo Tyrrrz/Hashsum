@@ -28,7 +28,7 @@ namespace Hashsum.Tests
                 Assert.That(checksum1, Is.Not.Null.Or.Empty);
                 Assert.That(checksum2, Is.Not.Null.Or.Empty);
                 Assert.That(checksum1, Is.Not.SameAs(checksum2));
-                Assert.That(checksum1, Is.EquivalentTo(checksum2));
+                Assert.That(checksum1, Is.EqualTo(checksum2));
             }
         }
 
@@ -52,7 +52,7 @@ namespace Hashsum.Tests
                 Assert.That(checksum1, Is.Not.Null.Or.Empty);
                 Assert.That(checksum2, Is.Not.Null.Or.Empty);
                 Assert.That(checksum1, Is.Not.SameAs(checksum2));
-                Assert.That(checksum1, Is.Not.EquivalentTo(checksum2));
+                Assert.That(checksum1, Is.Not.EqualTo(checksum2));
             }
         }
 
@@ -62,25 +62,24 @@ namespace Hashsum.Tests
             using (var builder = new ChecksumBuilder())
             {
                 var checksum1 = builder
-                    .Mutate("hello world")
                     .Mutate(99)
+                    .Mutate(Guid.NewGuid())
                     .Calculate();
 
                 var checksum2 = builder
-                    .Mutate("test string")
                     .Mutate(1337)
-                    .Mutate(Convert.FromBase64String("WW91IGFyZSBjdXJpb3Vz"))
+                    .Mutate(Guid.NewGuid())
                     .Calculate();
 
                 Assert.That(checksum1, Is.Not.Null.Or.Empty);
                 Assert.That(checksum2, Is.Not.Null.Or.Empty);
                 Assert.That(checksum1, Is.Not.SameAs(checksum2));
-                Assert.That(checksum1, Is.Not.EquivalentTo(checksum2));
+                Assert.That(checksum1, Is.Not.EqualTo(checksum2));
             }
         }
 
         [Test]
-        public void Checksum_Is_Culture_Agnostic_Test()
+        public void Checksum_Is_Culture_Invariant_Test()
         {
             using (var builder = new ChecksumBuilder())
             {
@@ -89,6 +88,7 @@ namespace Hashsum.Tests
                     .Mutate(12345678912123)
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
+                    .Mutate(-5252323.123)
                     .Calculate();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("tr-TR");
@@ -96,6 +96,7 @@ namespace Hashsum.Tests
                     .Mutate(12345678912123)
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
+                    .Mutate(-5252323.123)
                     .Calculate();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("zh-CN");
@@ -103,6 +104,7 @@ namespace Hashsum.Tests
                     .Mutate(12345678912123)
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
+                    .Mutate(-5252323.123)
                     .Calculate();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ja-JP");
@@ -110,6 +112,7 @@ namespace Hashsum.Tests
                     .Mutate(12345678912123)
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
+                    .Mutate(-5252323.123)
                     .Calculate();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("da-DK");
@@ -117,6 +120,7 @@ namespace Hashsum.Tests
                     .Mutate(12345678912123)
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
+                    .Mutate(-5252323.123)
                     .Calculate();
 
                 Assert.That(checksumEnUs, Is.Not.Null.Or.Empty);
@@ -125,10 +129,10 @@ namespace Hashsum.Tests
                 Assert.That(checksumJaJp, Is.Not.Null.Or.Empty);
                 Assert.That(checksumDaDk, Is.Not.Null.Or.Empty);
 
-                Assert.That(checksumEnUs, Is.EquivalentTo(checksumTrTr));
-                Assert.That(checksumEnUs, Is.EquivalentTo(checksumZhCn));
-                Assert.That(checksumEnUs, Is.EquivalentTo(checksumJaJp));
-                Assert.That(checksumEnUs, Is.EquivalentTo(checksumDaDk));
+                Assert.That(checksumEnUs, Is.EqualTo(checksumTrTr));
+                Assert.That(checksumEnUs, Is.EqualTo(checksumZhCn));
+                Assert.That(checksumEnUs, Is.EqualTo(checksumJaJp));
+                Assert.That(checksumEnUs, Is.EqualTo(checksumDaDk));
             }
         }
     }

@@ -14,8 +14,6 @@ namespace Hashsum
         private readonly HashAlgorithm _algorithm;
         private readonly bool _disposeAlgorithm;
         private readonly StringBuilder _buffer;
-        private readonly string _separator;
-        private readonly IFormatProvider _formatProvider;
 
         /// <summary>
         /// Initializes <see cref="ChecksumBuilder" /> with given hashing algorithm.
@@ -27,8 +25,6 @@ namespace Hashsum
             _algorithm = algorithm;
             _disposeAlgorithm = disposeAlgorithm;
             _buffer = new StringBuilder();
-            _separator = ";";
-            _formatProvider = CultureInfo.InvariantCulture;
         }
 
         /// <summary>
@@ -44,13 +40,13 @@ namespace Hashsum
         private ChecksumBuilder AppendToBuffer(string value)
         {
             _buffer.Append(value);
-            _buffer.Append(_separator);
+            _buffer.Append(';');
 
             return this;
         }
 
         private ChecksumBuilder AppendToBuffer(IFormattable value, string format) =>
-            AppendToBuffer(value?.ToString(format, _formatProvider));
+            AppendToBuffer(value?.ToString(format, CultureInfo.InvariantCulture));
 
         /// <summary>
         /// Mutates checksum by given value.

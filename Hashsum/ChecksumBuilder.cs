@@ -18,7 +18,7 @@ namespace Hashsum
         /// <summary>
         /// Initializes <see cref="ChecksumBuilder" /> with given hashing algorithm.
         /// </summary>
-        public ChecksumBuilder(HashAlgorithm algorithm, bool disposeAlgorithm = true)
+        public ChecksumBuilder(HashAlgorithm algorithm, bool disposeAlgorithm = false)
         {
             algorithm.GuardNotNull(nameof(algorithm));
 
@@ -31,7 +31,7 @@ namespace Hashsum
         /// Initializes <see cref="ChecksumBuilder" /> with <see cref="SHA256" /> hashing algorithm.
         /// </summary>
         public ChecksumBuilder()
-            : this(SHA256.Create())
+            : this(SHA256.Create(), true)
         {
         }
 
@@ -45,78 +45,28 @@ namespace Hashsum
             return this;
         }
 
-        private ChecksumBuilder AppendToBuffer(IFormattable value, string format) =>
+        private ChecksumBuilder AppendToBuffer(IFormattable value, string format = null) =>
             AppendToBuffer(value?.ToString(format, CultureInfo.InvariantCulture));
 
         /// <summary>
-        /// Mutates checksum by given value.
+        /// Mutates checksum by given string.
         /// </summary>
-        public ChecksumBuilder Mutate(string value) => AppendToBuffer(value);
+        public ChecksumBuilder Mutate(string str) => AppendToBuffer(str);
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        public ChecksumBuilder Mutate(short value) => AppendToBuffer(value, "D");
+        public ChecksumBuilder Mutate(IFormattable value) => AppendToBuffer(value);
 
         /// <summary>
-        /// Mutates checksum by given value.
+        /// Mutates checksum by given date.
         /// </summary>
-        public ChecksumBuilder Mutate(int value) => AppendToBuffer(value, "D");
+        public ChecksumBuilder Mutate(DateTimeOffset date) => AppendToBuffer(date.ToUniversalTime(), "u");
 
         /// <summary>
-        /// Mutates checksum by given value.
+        /// Mutates checksum by given data.
         /// </summary>
-        public ChecksumBuilder Mutate(long value) => AppendToBuffer(value, "D");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(ushort value) => AppendToBuffer(value, "D");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(uint value) => AppendToBuffer(value, "D");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(ulong value) => AppendToBuffer(value, "D");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(Guid value) => AppendToBuffer(value, "D");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(float value) => AppendToBuffer(value, "F");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(double value) => AppendToBuffer(value, "F");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(decimal value) => AppendToBuffer(value, "F");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(DateTime value) => AppendToBuffer(value, "u");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(DateTimeOffset value) => AppendToBuffer(value, "u");
-
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
-        public ChecksumBuilder Mutate(byte[] value) => AppendToBuffer(Convert.ToBase64String(value));
+        public ChecksumBuilder Mutate(byte[] data) => AppendToBuffer(Convert.ToBase64String(data));
 
         #endregion
 

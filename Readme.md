@@ -5,7 +5,7 @@
 [![NuGet](https://img.shields.io/nuget/v/Hashsum.svg)](https://nuget.org/packages/Hashsum)
 [![NuGet](https://img.shields.io/nuget/dt/Hashsum.svg)](https://nuget.org/packages/Hashsum)
 
-Hashsum can be used to easily calculate checksums based on arbitrary sets of values.
+Hashsum is a library for generating checksums based on arbitrary sets of values. It works by invariantly formatting values into a string buffer and calculating hash based on resulting string.
 
 ## Download
 
@@ -16,6 +16,9 @@ Hashsum can be used to easily calculate checksums based on arbitrary sets of val
 
 - Convenient fluent interface
 - Culture and format invariant
+- Pluggable hashing algorithm
+- Targets .NET Framework 4.5+, and .NET Standard 1.4+
+- No external dependencies
 
 ## Usage
 

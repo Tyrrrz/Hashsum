@@ -9,7 +9,7 @@ namespace Hashsum.Tests
     public class ExtensionsTests
     {
         [Test]
-        public void Mutate_By_Multiple_Values_Test()
+        public void Mutate_IEnumerable_Test()
         {
             using (var builder = new ChecksumBuilder())
             {
@@ -24,7 +24,7 @@ namespace Hashsum.Tests
         }
 
         [Test]
-        public void Mutate_By_Stream_Test()
+        public void Mutate_Stream_Test()
         {
             var thisAssemblyFilePath = Assembly.GetExecutingAssembly().Location;
 
@@ -34,21 +34,6 @@ namespace Hashsum.Tests
                 var checksum = builder
                     .Mutate(fileStream)
                     .Calculate();
-
-                Assert.That(checksum, Is.Not.Null.Or.Empty);
-            }
-        }
-
-        [Test]
-        public void CalculateToString_Test()
-        {
-            using (var builder = new ChecksumBuilder())
-            {
-                var checksum = builder
-                    .Mutate(1)
-                    .Mutate(2)
-                    .Mutate(3)
-                    .CalculateToString();
 
                 Assert.That(checksum, Is.Not.Null.Or.Empty);
             }

@@ -50,14 +50,5 @@ namespace Hashsum
                 return builder.Mutate(memoryStream.ToArray());
             }
         }
-
-        /// <summary>
-        /// Calculates checksum and converts it to base64 string.
-        /// </summary>
-        public static string CalculateToString(this ChecksumBuilder builder)
-        {
-            builder.GuardNotNull(nameof(builder));
-            return Convert.ToBase64String(builder.Calculate());
-        }
     }
 }

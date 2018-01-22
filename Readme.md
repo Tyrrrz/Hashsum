@@ -30,6 +30,7 @@ using (var builder = new ChecksumBuilder())
         .Mutate(12345678)
         .Mutate(10e-5)
         .Mutate(DateTime.Now)
-        .Calculate();
+        .Calculate()
+        .ToString(); // 4vKHCvfiiF/RLEfiqMnCkzQ8IYGu4K8erlWyzdsvqrU=
 }
 ```

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using Hashsum.Internal;
+using Hashsum.Models;
 
 namespace Hashsum
 {
@@ -20,9 +21,7 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder(HashAlgorithm algorithm, bool disposeAlgorithm = false)
         {
-            algorithm.GuardNotNull(nameof(algorithm));
-
-            _algorithm = algorithm;
+            _algorithm = algorithm.GuardNotNull(nameof(algorithm));
             _disposeAlgorithm = disposeAlgorithm;
             _buffer = new StringBuilder();
         }
@@ -73,11 +72,13 @@ namespace Hashsum
         /// <summary>
         /// Calculates the checksum and clears buffer.
         /// </summary>
-        public byte[] Calculate()
+        public Checksum Calculate()
         {
-            var data = Encoding.Unicode.GetBytes(_buffer.ToString());
+            var bufferData = Encoding.Unicode.GetBytes(_buffer.ToString());
             _buffer.Clear();
-            return _algorithm.ComputeHash(data);
+            var checksumData = _algorithm.ComputeHash(bufferData);
+
+            return new Checksum(checksumData);
         }
 
         /// <inheritdoc />

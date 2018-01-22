@@ -9,7 +9,7 @@ namespace Hashsum.Tests
     public class ChecksumBuilderTests
     {
         [Test]
-        public void Same_Mutators_In_Same_Order_Produce_Same_Checksums_Test()
+        public void Calculate_SameMutatorsSameOrder_Test()
         {
             using (var builder = new ChecksumBuilder())
             {
@@ -17,23 +17,24 @@ namespace Hashsum.Tests
                     .Mutate("test string")
                     .Mutate(1337)
                     .Mutate(Convert.FromBase64String("WW91IGFyZSBjdXJpb3Vz"))
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 var checksum2 = builder
                     .Mutate("test string")
                     .Mutate(1337)
                     .Mutate(Convert.FromBase64String("WW91IGFyZSBjdXJpb3Vz"))
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Assert.That(checksum1, Is.Not.Null.Or.Empty);
                 Assert.That(checksum2, Is.Not.Null.Or.Empty);
-                Assert.That(checksum1, Is.Not.SameAs(checksum2));
                 Assert.That(checksum1, Is.EqualTo(checksum2));
             }
         }
 
         [Test]
-        public void Same_Mutators_In_Different_Order_Produce_Different_Checksums_Test()
+        public void Calculate_SameMutatorsDifferentOrder_Test()
         {
             using (var builder = new ChecksumBuilder())
             {
@@ -41,45 +42,47 @@ namespace Hashsum.Tests
                     .Mutate(1337)
                     .Mutate("test string")
                     .Mutate(Convert.FromBase64String("WW91IGFyZSBjdXJpb3Vz"))
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 var checksum2 = builder
                     .Mutate("test string")
                     .Mutate(Convert.FromBase64String("WW91IGFyZSBjdXJpb3Vz"))
                     .Mutate(1337)
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Assert.That(checksum1, Is.Not.Null.Or.Empty);
                 Assert.That(checksum2, Is.Not.Null.Or.Empty);
-                Assert.That(checksum1, Is.Not.SameAs(checksum2));
                 Assert.That(checksum1, Is.Not.EqualTo(checksum2));
             }
         }
 
         [Test]
-        public void Different_Mutators_Produce_Different_Checksums_Test()
+        public void Calculate_DifferentMutators_Test()
         {
             using (var builder = new ChecksumBuilder())
             {
                 var checksum1 = builder
                     .Mutate(99)
                     .Mutate(Guid.NewGuid())
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 var checksum2 = builder
                     .Mutate(1337)
                     .Mutate(Guid.NewGuid())
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Assert.That(checksum1, Is.Not.Null.Or.Empty);
                 Assert.That(checksum2, Is.Not.Null.Or.Empty);
-                Assert.That(checksum1, Is.Not.SameAs(checksum2));
                 Assert.That(checksum1, Is.Not.EqualTo(checksum2));
             }
         }
 
         [Test]
-        public void Checksum_Is_Culture_Invariant_Test()
+        public void Calculate_CultureInvariant_Test()
         {
             using (var builder = new ChecksumBuilder())
             {
@@ -89,7 +92,8 @@ namespace Hashsum.Tests
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
                     .Mutate(-5252323.123)
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("tr-TR");
                 var checksumTrTr = builder
@@ -97,7 +101,8 @@ namespace Hashsum.Tests
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
                     .Mutate(-5252323.123)
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("zh-CN");
                 var checksumZhCn = builder
@@ -105,7 +110,8 @@ namespace Hashsum.Tests
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
                     .Mutate(-5252323.123)
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("ja-JP");
                 var checksumJaJp = builder
@@ -113,7 +119,8 @@ namespace Hashsum.Tests
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
                     .Mutate(-5252323.123)
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("da-DK");
                 var checksumDaDk = builder
@@ -121,7 +128,8 @@ namespace Hashsum.Tests
                     .Mutate(new DateTime(1991, 04, 16, 15, 10, 02))
                     .Mutate(-232323)
                     .Mutate(-5252323.123)
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Assert.That(checksumEnUs, Is.Not.Null.Or.Empty);
                 Assert.That(checksumTrTr, Is.Not.Null.Or.Empty);

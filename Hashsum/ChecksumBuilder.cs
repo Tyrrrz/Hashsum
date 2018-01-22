@@ -60,7 +60,7 @@ namespace Hashsum
         /// <summary>
         /// Mutates checksum by given date.
         /// </summary>
-        public ChecksumBuilder Mutate(DateTimeOffset date) => AppendToBuffer(date.ToUniversalTime(), "u");
+        public ChecksumBuilder Mutate(DateTimeOffset date) => AppendToBuffer(date.ToUniversalTime().Ticks);
 
         /// <summary>
         /// Mutates checksum by given data.

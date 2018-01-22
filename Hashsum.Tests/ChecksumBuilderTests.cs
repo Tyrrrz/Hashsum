@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using NUnit.Framework;
 
@@ -32,7 +33,7 @@ namespace Hashsum.Tests
                 };
 
                 Assert.That(checksums, Is.All.Not.Null.Or.Empty);
-                Assert.That(checksums, Is.Not.Unique);
+                Assert.That(checksums, Is.All.EqualTo(checksums.First()));
             }
         }
 
@@ -130,7 +131,7 @@ namespace Hashsum.Tests
                 }
 
                 Assert.That(checksums, Is.All.Not.Null.Or.Empty);
-                Assert.That(checksums, Is.Not.Unique);
+                Assert.That(checksums, Is.All.EqualTo(checksums.First()));
             }
         }
     }

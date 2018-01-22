@@ -17,7 +17,8 @@ namespace Hashsum.Tests
                     .Mutate(new[] {1, 2, 3, 4, 5})
                     .Mutate(new[] {DateTimeOffset.Now, DateTimeOffset.UtcNow})
                     .Mutate(new[] {0.15, 3.14})
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Assert.That(checksum, Is.Not.Null.Or.Empty);
             }
@@ -33,7 +34,8 @@ namespace Hashsum.Tests
             {
                 var checksum = builder
                     .Mutate(fileStream)
-                    .Calculate();
+                    .Calculate()
+                    .ToString();
 
                 Assert.That(checksum, Is.Not.Null.Or.Empty);
             }

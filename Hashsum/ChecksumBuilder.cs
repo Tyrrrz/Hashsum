@@ -76,7 +76,7 @@ namespace Hashsum
         public ChecksumBuilder Mutate(DateTimeOffset date)
         {
             var ticks = date.ToUniversalTime().Ticks;
-            return AppendToBuffer(ticks);
+            return Mutate(ticks);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Hashsum
             data.GuardNotNull(nameof(data));
             var str = Convert.ToBase64String(data);
 
-            return AppendToBuffer(str);
+            return Mutate(str);
         }
 
         /// <summary>

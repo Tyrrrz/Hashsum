@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using NUnit.Framework;
 
@@ -67,10 +69,10 @@ namespace Hashsum.Tests
         [Test]
         public void Calculate_DifferentMutators_Test()
         {
+            var date = DateTimeOffset.Now;
+
             using (var builder = new ChecksumBuilder())
             {
-                var date = DateTimeOffset.Now;
-
                 var checksums = new[]
                 {
                     builder
@@ -132,6 +134,39 @@ namespace Hashsum.Tests
 
                 Assert.That(checksums, Is.All.Not.Null.Or.Empty);
                 Assert.That(checksums, Is.All.EqualTo(checksums.First()));
+            }
+        }
+
+        [Test]
+        public void Mutate_IEnumerable_Test()
+        {
+            using (var builder = new ChecksumBuilder())
+            {
+                var checksum = builder
+                    .Mutate(new[] {1, 2, 3, 4, 5})
+                    .Mutate(new[] {DateTimeOffset.Now, DateTimeOffset.UtcNow})
+                    .Mutate(new[] {0.15, 3.14})
+                    .Calculate()
+                    .ToString();
+
+                Assert.That(checksum, Is.Not.Null.Or.Empty);
+            }
+        }
+
+        [Test]
+        public void Mutate_Stream_Test()
+        {
+            var thisAssemblyFilePath = Assembly.GetExecutingAssembly().Location;
+
+            using (var fileStream = File.OpenRead(thisAssemblyFilePath))
+            using (var builder = new ChecksumBuilder())
+            {
+                var checksum = builder
+                    .Mutate(fileStream)
+                    .Calculate()
+                    .ToString();
+
+                Assert.That(checksum, Is.Not.Null.Or.Empty);
             }
         }
     }

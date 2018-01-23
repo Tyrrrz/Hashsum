@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Hashsum.Internal;
@@ -66,6 +68,46 @@ namespace Hashsum
         /// Mutates checksum by given data.
         /// </summary>
         public ChecksumBuilder Mutate(byte[] data) => AppendToBuffer(Convert.ToBase64String(data));
+
+        /// <summary>
+        /// Mutates checksum by given values.
+        /// </summary>
+        public ChecksumBuilder Mutate<T>(IEnumerable<T> values) where T : IFormattable
+        {
+            values.GuardNotNull(nameof(values));
+
+            foreach (var value in values)
+                Mutate(value);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Mutates checksum by given dates.
+        /// </summary>
+        public ChecksumBuilder Mutate(IEnumerable<DateTimeOffset> dates)
+        {
+            dates.GuardNotNull(nameof(dates));
+
+            foreach (var date in dates)
+                Mutate(date);
+
+            return this;
+        }
+
+        /// <summary>
+        /// Mutates checksum by given stream.
+        /// </summary>
+        public ChecksumBuilder Mutate(Stream stream)
+        {
+            stream.GuardNotNull(nameof(stream));
+
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                return Mutate(memoryStream.ToArray());
+            }
+        }
 
         #endregion
 

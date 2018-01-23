@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Hashsum.Internal;
 
 namespace Hashsum.Models
@@ -6,7 +7,7 @@ namespace Hashsum.Models
     /// <summary>
     /// Represents a calculated checksum.
     /// </summary>
-    public class Checksum
+    public partial class Checksum : IEquatable<Checksum>
     {
         private readonly byte[] _data;
 
@@ -22,7 +23,11 @@ namespace Hashsum.Models
         /// <summary>
         /// Returns checksum as a raw array of bytes.
         /// </summary>
-        public byte[] ToByteArray() => _data;
+        public byte[] ToByteArray()
+        {
+            // Make a copy so it won't get mutated
+            return _data.ToArray();
+        }
 
         /// <summary>
         /// Returns checksum formatted as string.
@@ -41,5 +46,46 @@ namespace Hashsum.Models
         /// Returns checksum formatted as base64 string.
         /// </summary>
         public override string ToString() => ToString(ChecksumStringFormat.Base64);
+
+        /// <inheritdoc />
+        public bool Equals(Checksum other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return _data.SequenceEqual(other._data);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            return Equals((Checksum) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return _data.GetHashCode();
+        }
+    }
+
+    public partial class Checksum
+    {
+        /// <summary />
+        public static bool operator ==(Checksum a, Checksum b)
+        {
+            if (ReferenceEquals(a, b)) return true;
+            if (ReferenceEquals(null, a)) return false;
+            if (ReferenceEquals(null, b)) return false;
+
+            return a.Equals(b);
+        }
+
+        /// <summary />
+        public static bool operator !=(Checksum a, Checksum b) => !(a == b);
     }
 }

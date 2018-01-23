@@ -46,28 +46,49 @@ namespace Hashsum
             return this;
         }
 
-        private ChecksumBuilder AppendToBuffer(IFormattable value, string format = null) =>
-            AppendToBuffer(value?.ToString(format, CultureInfo.InvariantCulture));
+        private ChecksumBuilder AppendToBuffer(IFormattable value, string format = null)
+        {
+            var str = value.ToString(format, CultureInfo.InvariantCulture);
+            return AppendToBuffer(str);
+        }
 
         /// <summary>
         /// Mutates checksum by given string.
         /// </summary>
-        public ChecksumBuilder Mutate(string str) => AppendToBuffer(str);
+        public ChecksumBuilder Mutate(string str)
+        {
+            str.GuardNotNull(nameof(str));
+            return AppendToBuffer(str);
+        }
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        public ChecksumBuilder Mutate(IFormattable value) => AppendToBuffer(value);
+        public ChecksumBuilder Mutate(IFormattable value)
+        {
+            value.GuardNotNull(nameof(value));
+            return AppendToBuffer(value);
+        }
 
         /// <summary>
         /// Mutates checksum by given date.
         /// </summary>
-        public ChecksumBuilder Mutate(DateTimeOffset date) => AppendToBuffer(date.ToUniversalTime().Ticks);
+        public ChecksumBuilder Mutate(DateTimeOffset date)
+        {
+            var ticks = date.ToUniversalTime().Ticks;
+            return AppendToBuffer(ticks);
+        }
 
         /// <summary>
         /// Mutates checksum by given data.
         /// </summary>
-        public ChecksumBuilder Mutate(byte[] data) => AppendToBuffer(Convert.ToBase64String(data));
+        public ChecksumBuilder Mutate(byte[] data)
+        {
+            data.GuardNotNull(nameof(data));
+            var str = Convert.ToBase64String(data);
+
+            return AppendToBuffer(str);
+        }
 
         /// <summary>
         /// Mutates checksum by given values.

@@ -138,22 +138,6 @@ namespace Hashsum.Tests
         }
 
         [Test]
-        public void Mutate_IEnumerable_Test()
-        {
-            using (var builder = new ChecksumBuilder())
-            {
-                var checksum = builder
-                    .Mutate(new[] {1, 2, 3, 4, 5})
-                    .Mutate(new[] {DateTimeOffset.Now, DateTimeOffset.UtcNow})
-                    .Mutate(new[] {0.15, 3.14})
-                    .Calculate()
-                    .ToString();
-
-                Assert.That(checksum, Is.Not.Null.Or.Empty);
-            }
-        }
-
-        [Test]
         public void Mutate_Stream_Test()
         {
             var thisAssemblyFilePath = Assembly.GetExecutingAssembly().Location;

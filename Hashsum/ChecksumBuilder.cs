@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
@@ -53,12 +52,12 @@ namespace Hashsum
         }
 
         /// <summary>
-        /// Mutates checksum by given string.
+        /// Mutates checksum by given value.
         /// </summary>
-        public ChecksumBuilder Mutate(string str)
+        public ChecksumBuilder Mutate(string value)
         {
-            str.GuardNotNull(nameof(str));
-            return AppendToBuffer(str);
+            value.GuardNotNull(nameof(value));
+            return AppendToBuffer(value);
         }
 
         /// <summary>
@@ -71,49 +70,49 @@ namespace Hashsum
         }
 
         /// <summary>
-        /// Mutates checksum by given date.
+        /// Mutates checksum by given value.
         /// </summary>
-        public ChecksumBuilder Mutate(DateTimeOffset date)
+        public ChecksumBuilder Mutate(bool value)
         {
-            var ticks = date.ToUniversalTime().Ticks;
+            var str = value ? "TRUE" : "FALSE";
+            return Mutate(str);
+        }
+
+        /// <summary>
+        /// Mutates checksum by given value.
+        /// </summary>
+        public ChecksumBuilder Mutate(TimeSpan time)
+        {
+            var ticks = time.Ticks;
+            return Mutate(ticks);
+        }
+
+        /// <summary>
+        /// Mutates checksum by given value.
+        /// </summary>
+        public ChecksumBuilder Mutate(DateTime value)
+        {
+            var ticks = value.ToUniversalTime().Ticks;
+            return Mutate(ticks);
+        }
+
+        /// <summary>
+        /// Mutates checksum by given value.
+        /// </summary>
+        public ChecksumBuilder Mutate(DateTimeOffset value)
+        {
+            var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
 
         /// <summary>
         /// Mutates checksum by given data.
         /// </summary>
-        public ChecksumBuilder Mutate(byte[] data)
+        public ChecksumBuilder Mutate(byte[] value)
         {
-            data.GuardNotNull(nameof(data));
-            var str = Convert.ToBase64String(data);
-
+            value.GuardNotNull(nameof(value));
+            var str = Convert.ToBase64String(value);
             return Mutate(str);
-        }
-
-        /// <summary>
-        /// Mutates checksum by given values.
-        /// </summary>
-        public ChecksumBuilder Mutate<T>(IEnumerable<T> values) where T : IFormattable
-        {
-            values.GuardNotNull(nameof(values));
-
-            foreach (var value in values)
-                Mutate(value);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Mutates checksum by given dates.
-        /// </summary>
-        public ChecksumBuilder Mutate(IEnumerable<DateTimeOffset> dates)
-        {
-            dates.GuardNotNull(nameof(dates));
-
-            foreach (var date in dates)
-                Mutate(date);
-
-            return this;
         }
 
         /// <summary>

@@ -81,9 +81,9 @@ namespace Hashsum
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        public ChecksumBuilder Mutate(TimeSpan time)
+        public ChecksumBuilder Mutate(TimeSpan value)
         {
-            var ticks = time.Ticks;
+            var ticks = value.Ticks;
             return Mutate(ticks);
         }
 
@@ -108,10 +108,10 @@ namespace Hashsum
         /// <summary>
         /// Mutates checksum by given data.
         /// </summary>
-        public ChecksumBuilder Mutate(byte[] value)
+        public ChecksumBuilder Mutate(byte[] data)
         {
-            value.GuardNotNull(nameof(value));
-            var str = Convert.ToBase64String(value);
+            data.GuardNotNull(nameof(data));
+            var str = Convert.ToBase64String(data);
             return Mutate(str);
         }
 

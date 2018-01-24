@@ -63,6 +63,15 @@ namespace Hashsum
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
+        public ChecksumBuilder Mutate(char value)
+        {
+            var str = value.ToString();
+            return Mutate(str);
+        }
+
+        /// <summary>
+        /// Mutates checksum by given value.
+        /// </summary>
         public ChecksumBuilder Mutate(IFormattable value)
         {
             value.GuardNotNull(nameof(value));

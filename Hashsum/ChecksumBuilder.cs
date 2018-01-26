@@ -16,6 +16,7 @@ namespace Hashsum
         private readonly HashAlgorithm _algorithm;
         private readonly bool _disposeAlgorithm;
         private readonly StringBuilder _buffer;
+        private bool _isDisposed;
 
         /// <summary>
         /// Initializes <see cref="ChecksumBuilder" /> with given hashing algorithm.
@@ -39,6 +40,7 @@ namespace Hashsum
 
         private ChecksumBuilder AppendToBuffer(string value)
         {
+            // Append value to buffer with separator
             _buffer.Append(value);
             _buffer.Append(';');
 
@@ -57,6 +59,10 @@ namespace Hashsum
         public ChecksumBuilder Mutate(string value)
         {
             value.GuardNotNull(nameof(value));
+
+            // Check if disposed
+            ThrowIfDisposed();
+
             return AppendToBuffer(value);
         }
 
@@ -65,6 +71,9 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(char value)
         {
+            // Check if disposed
+            ThrowIfDisposed();
+
             var str = value.ToString();
             return Mutate(str);
         }
@@ -75,6 +84,10 @@ namespace Hashsum
         public ChecksumBuilder Mutate(IFormattable value)
         {
             value.GuardNotNull(nameof(value));
+
+            // Check if disposed
+            ThrowIfDisposed();
+
             return AppendToBuffer(value);
         }
 
@@ -83,6 +96,9 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(bool value)
         {
+            // Check if disposed
+            ThrowIfDisposed();
+
             var str = value ? "TRUE" : "FALSE";
             return Mutate(str);
         }
@@ -92,6 +108,9 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(TimeSpan value)
         {
+            // Check if disposed
+            ThrowIfDisposed();
+
             var ticks = value.Ticks;
             return Mutate(ticks);
         }
@@ -101,6 +120,9 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(DateTime value)
         {
+            // Check if disposed
+            ThrowIfDisposed();
+
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
@@ -110,6 +132,9 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(DateTimeOffset value)
         {
+            // Check if disposed
+            ThrowIfDisposed();
+
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
@@ -120,7 +145,12 @@ namespace Hashsum
         public ChecksumBuilder Mutate(byte[] data)
         {
             data.GuardNotNull(nameof(data));
+
+            // Check if disposed
+            ThrowIfDisposed();
+
             var str = Convert.ToBase64String(data);
+
             return Mutate(str);
         }
 
@@ -130,6 +160,9 @@ namespace Hashsum
         public ChecksumBuilder Mutate(Stream stream)
         {
             stream.GuardNotNull(nameof(stream));
+
+            // Check if disposed
+            ThrowIfDisposed();
 
             using (var memoryStream = new MemoryStream())
             {
@@ -145,8 +178,14 @@ namespace Hashsum
         /// </summary>
         public Checksum Calculate()
         {
+            // Check if disposed
+            ThrowIfDisposed();
+
+            // Flush buffer and convert to bytes
             var bufferData = Encoding.Unicode.GetBytes(_buffer.ToString());
             _buffer.Clear();
+
+            // Calculate checksum
             var checksumData = _algorithm.ComputeHash(bufferData);
 
             return new Checksum(checksumData);
@@ -160,8 +199,9 @@ namespace Hashsum
         /// </summary>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && !_isDisposed)
             {
+                _isDisposed = true;
                 _buffer.Clear();
                 if (_disposeAlgorithm)
                     _algorithm.Dispose();
@@ -173,6 +213,12 @@ namespace Hashsum
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (_isDisposed)
+                throw new ObjectDisposedException(GetType().ToString());
         }
     }
 }

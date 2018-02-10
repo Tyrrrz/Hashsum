@@ -50,8 +50,8 @@ namespace Hashsum.Models
         /// <inheritdoc />
         public bool Equals(Checksum other)
         {
-            if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
+            if (other is null) return false;
 
             return _data.SequenceEqual(other._data);
         }
@@ -59,11 +59,10 @@ namespace Hashsum.Models
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
+            if (obj is Checksum other)
+                return Equals(other);
 
-            return Equals((Checksum) obj);
+            return false;
         }
 
         /// <inheritdoc />
@@ -78,10 +77,7 @@ namespace Hashsum.Models
         /// <summary />
         public static bool operator ==(Checksum a, Checksum b)
         {
-            if (ReferenceEquals(a, b)) return true;
-            if (ReferenceEquals(null, a)) return false;
-            if (ReferenceEquals(null, b)) return false;
-
+            if (a is null) return false;
             return a.Equals(b);
         }
 

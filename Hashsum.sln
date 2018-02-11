@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hashsum", "Hashsum\Hashsum.csproj", "{A2D1422B-6A00-47EB-8150-81A79AB274B5}"
 EndProject
@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hashsum.Tests", "Hashsum.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A4CC509C-101F-49C5-8BCD-B95480E0DE57}"
 	ProjectSection(SolutionItems) = preProject
+		Changelog.md = Changelog.md
 		License.txt = License.txt
 		Readme.md = Readme.md
 	EndProjectSection

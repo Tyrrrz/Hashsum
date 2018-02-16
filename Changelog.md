@@ -1,3 +1,8 @@
+### v1.1.2 (16-Feb-2018)
+
+- Removed/added some mutators.
+- `ChecksumBuilder` will now throw an exception when used after being disposed.
+
 ### v1.1.1 (23-Jan-2018)
 
 - `ChecksumBuilder.Mutate()` methods will now throw on `null` values.

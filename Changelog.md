@@ -1,3 +1,7 @@
+### v1.1.3 (17-Feb-2018)
+
+- Downgraded .NET Standard target framework to 1.3.
+
 ### v1.1.2 (16-Feb-2018)
 
 - Removed/added some mutators.

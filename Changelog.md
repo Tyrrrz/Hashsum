@@ -1,3 +1,7 @@
+### v1.2 (21-Feb-2018)
+
+- `ChecksumBuilder` is no longer `IDisposable`. Custom hashing algorithm can be supplied as parameter to `Calculate` method.
+
 ### v1.1.3 (17-Feb-2018)
 
 - Downgraded .NET Standard target framework to 1.3.

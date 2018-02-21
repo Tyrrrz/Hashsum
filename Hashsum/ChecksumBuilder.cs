@@ -11,29 +11,16 @@ namespace Hashsum
     /// <summary>
     /// Fluent interface for mutating and calculating checksums.
     /// </summary>
-    public class ChecksumBuilder : IDisposable
+    public class ChecksumBuilder
     {
-        private readonly HashAlgorithm _algorithm;
-        private readonly bool _disposeAlgorithm;
         private readonly StringBuilder _buffer;
-        private bool _isDisposed;
 
         /// <summary>
-        /// Initializes <see cref="ChecksumBuilder" /> with given hashing algorithm.
-        /// </summary>
-        public ChecksumBuilder(HashAlgorithm algorithm, bool disposeAlgorithm = false)
-        {
-            _algorithm = algorithm.GuardNotNull(nameof(algorithm));
-            _disposeAlgorithm = disposeAlgorithm;
-            _buffer = new StringBuilder();
-        }
-
-        /// <summary>
-        /// Initializes <see cref="ChecksumBuilder" /> with <see cref="SHA256" /> hashing algorithm.
+        /// Initializes <see cref="ChecksumBuilder"/>.
         /// </summary>
         public ChecksumBuilder()
-            : this(SHA256.Create(), true)
         {
+            _buffer = new StringBuilder();
         }
 
         #region Mutators
@@ -60,9 +47,6 @@ namespace Hashsum
         {
             value.GuardNotNull(nameof(value));
 
-            // Check if disposed
-            ThrowIfDisposed();
-
             return AppendToBuffer(value);
         }
 
@@ -71,9 +55,6 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(char value)
         {
-            // Check if disposed
-            ThrowIfDisposed();
-
             var str = value.ToString();
             return Mutate(str);
         }
@@ -85,9 +66,6 @@ namespace Hashsum
         {
             value.GuardNotNull(nameof(value));
 
-            // Check if disposed
-            ThrowIfDisposed();
-
             return AppendToBuffer(value);
         }
 
@@ -96,9 +74,6 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(bool value)
         {
-            // Check if disposed
-            ThrowIfDisposed();
-
             var str = value ? "TRUE" : "FALSE";
             return Mutate(str);
         }
@@ -108,9 +83,6 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(TimeSpan value)
         {
-            // Check if disposed
-            ThrowIfDisposed();
-
             var ticks = value.Ticks;
             return Mutate(ticks);
         }
@@ -120,9 +92,6 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(DateTime value)
         {
-            // Check if disposed
-            ThrowIfDisposed();
-
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
@@ -132,9 +101,6 @@ namespace Hashsum
         /// </summary>
         public ChecksumBuilder Mutate(DateTimeOffset value)
         {
-            // Check if disposed
-            ThrowIfDisposed();
-
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
@@ -146,11 +112,7 @@ namespace Hashsum
         {
             data.GuardNotNull(nameof(data));
 
-            // Check if disposed
-            ThrowIfDisposed();
-
             var str = Convert.ToBase64String(data);
-
             return Mutate(str);
         }
 
@@ -160,9 +122,6 @@ namespace Hashsum
         public ChecksumBuilder Mutate(Stream stream)
         {
             stream.GuardNotNull(nameof(stream));
-
-            // Check if disposed
-            ThrowIfDisposed();
 
             using (var memoryStream = new MemoryStream())
             {
@@ -174,51 +133,35 @@ namespace Hashsum
         #endregion
 
         /// <summary>
-        /// Calculates the checksum and clears buffer.
+        /// Calculates the checksum using given algorithm.
         /// </summary>
-        public Checksum Calculate()
+        public Checksum Calculate(HashAlgorithm algorithm, bool disposeAlgorithm = true)
         {
-            // Check if disposed
-            ThrowIfDisposed();
+            algorithm.GuardNotNull(nameof(algorithm));
 
             // Flush buffer and convert to bytes
             var bufferData = Encoding.Unicode.GetBytes(_buffer.ToString());
             _buffer.Clear();
 
             // Calculate checksum
-            var checksumData = _algorithm.ComputeHash(bufferData);
-
-            return new Checksum(checksumData);
-        }
-
-        /// <inheritdoc />
-        public override string ToString() => _buffer.ToString();
-
-        /// <summary>
-        /// Disposes resources.
-        /// </summary>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing && !_isDisposed)
+            try
             {
-                _isDisposed = true;
-                _buffer.Clear();
-                if (_disposeAlgorithm)
-                    _algorithm.Dispose();
+                var checksumData = algorithm.ComputeHash(bufferData);
+                return new Checksum(checksumData);
+            }
+            finally
+            {
+                if (disposeAlgorithm)
+                    algorithm.Dispose();
             }
         }
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        /// <summary>
+        /// Calculates the checksum using <see cref="SHA256"/> algorithm.
+        /// </summary>
+        public Checksum Calculate() => Calculate(SHA256.Create());
 
-        private void ThrowIfDisposed()
-        {
-            if (_isDisposed)
-                throw new ObjectDisposedException(GetType().ToString());
-        }
+        /// <inheritdoc />
+        public override string ToString() => _buffer.ToString();
     }
 }

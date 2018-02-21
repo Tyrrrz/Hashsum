@@ -23,14 +23,11 @@ Hashsum is a library for generating checksums based on arbitrary sets of values.
 ## Usage
 
 ```c#
-using (var builder = new ChecksumBuilder())
-{
-    var checksum = builder
-        .Mutate("hello world")
-        .Mutate(12345678)
-        .Mutate(10e-5)
-        .Mutate(DateTime.Now)
-        .Calculate()
-        .ToString(); // 4vKHCvfiiF/RLEfiqMnCkzQ8IYGu4K8erlWyzdsvqrU=
-}
+var checksum = new ChecksumBuilder()
+    .Mutate("hello world")
+    .Mutate(12345678)
+    .Mutate(10e-5)
+    .Mutate(DateTime.Now)
+    .Calculate()
+    .ToString(); // 4vKHCvfiiF/RLEfiqMnCkzQ8IYGu4K8erlWyzdsvqrU=
 ```

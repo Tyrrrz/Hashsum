@@ -31,3 +31,7 @@ var checksum = new ChecksumBuilder()
     .Calculate()
     .ToString(); // 4vKHCvfiiF/RLEfiqMnCkzQ8IYGu4K8erlWyzdsvqrU=
 ```
+
+## Libraries used
+
+- [NUnit](https://github.com/nunit/nunit)

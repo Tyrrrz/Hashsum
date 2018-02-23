@@ -17,7 +17,7 @@ Hashsum is a library for generating checksums based on arbitrary sets of values.
 - Convenient fluent interface
 - Culture and format invariant
 - Pluggable hashing algorithm
-- Targets .NET Framework 4.5+, and .NET Standard 1.3+
+- Targets .NET Framework 4.5+ and .NET Standard 1.3+
 - No external dependencies
 
 ## Usage

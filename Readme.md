@@ -4,6 +4,7 @@
 [![Tests](https://img.shields.io/appveyor/tests/Tyrrrz/Hashsum/master.svg)](https://ci.appveyor.com/project/Tyrrrz/Hashsum)
 [![NuGet](https://img.shields.io/nuget/v/Hashsum.svg)](https://nuget.org/packages/Hashsum)
 [![NuGet](https://img.shields.io/nuget/dt/Hashsum.svg)](https://nuget.org/packages/Hashsum)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTyrrrz%2FHashsum.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FTyrrrz%2FHashsum?ref=badge_shield)
 
 Hashsum is a library for generating checksums based on arbitrary sets of values. It works by invariantly formatting values into a string buffer and calculating hash based on resulting string.
 
@@ -35,3 +36,6 @@ var checksum = new ChecksumBuilder()
 ## Libraries used
 
 - [NUnit](https://github.com/nunit/nunit)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTyrrrz%2FHashsum.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FTyrrrz%2FHashsum?ref=badge_large)

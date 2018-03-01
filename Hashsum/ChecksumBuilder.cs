@@ -139,13 +139,13 @@ namespace Hashsum
         {
             algorithm.GuardNotNull(nameof(algorithm));
 
-            // Flush buffer and convert to bytes
-            var bufferData = Encoding.Unicode.GetBytes(_buffer.ToString());
-            _buffer.Clear();
-
-            // Calculate checksum
             try
             {
+                // Flush buffer and convert to bytes
+                var bufferData = Encoding.Unicode.GetBytes(_buffer.ToString());
+                _buffer.Clear();
+
+                // Calculate checksum
                 var checksumData = algorithm.ComputeHash(bufferData);
                 return new Checksum(checksumData);
             }

@@ -11,12 +11,12 @@ namespace Hashsum
     /// <summary>
     /// Fluent interface for mutating and calculating checksums.
     /// </summary>
-    public class ChecksumBuilder
+    public class ChecksumBuilder : IChecksumBuilder
     {
         private readonly StringBuilder _buffer;
 
         /// <summary>
-        /// Initializes <see cref="ChecksumBuilder"/>.
+        /// Initializes an instance of <see cref="ChecksumBuilder"/>.
         /// </summary>
         public ChecksumBuilder()
         {
@@ -40,9 +40,7 @@ namespace Hashsum
             return AppendToBuffer(str);
         }
 
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(string value)
         {
             value.GuardNotNull(nameof(value));
@@ -50,18 +48,14 @@ namespace Hashsum
             return AppendToBuffer(value);
         }
 
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(char value)
         {
             var str = value.ToString();
             return Mutate(str);
         }
 
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(IFormattable value)
         {
             value.GuardNotNull(nameof(value));
@@ -69,45 +63,35 @@ namespace Hashsum
             return AppendToBuffer(value);
         }
 
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(bool value)
         {
             var str = value ? "TRUE" : "FALSE";
             return Mutate(str);
         }
 
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(TimeSpan value)
         {
             var ticks = value.Ticks;
             return Mutate(ticks);
         }
 
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(DateTime value)
         {
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
 
-        /// <summary>
-        /// Mutates checksum by given value.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(DateTimeOffset value)
         {
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
 
-        /// <summary>
-        /// Mutates checksum by given data.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(byte[] data)
         {
             data.GuardNotNull(nameof(data));
@@ -116,9 +100,7 @@ namespace Hashsum
             return Mutate(str);
         }
 
-        /// <summary>
-        /// Mutates checksum by given stream.
-        /// </summary>
+        /// <inheritdoc />
         public ChecksumBuilder Mutate(Stream stream)
         {
             stream.GuardNotNull(nameof(stream));
@@ -132,9 +114,7 @@ namespace Hashsum
 
         #endregion
 
-        /// <summary>
-        /// Calculates the checksum using given algorithm.
-        /// </summary>
+        /// <inheritdoc />
         public Checksum Calculate(HashAlgorithm algorithm, bool disposeAlgorithm = true)
         {
             algorithm.GuardNotNull(nameof(algorithm));
@@ -156,9 +136,7 @@ namespace Hashsum
             }
         }
 
-        /// <summary>
-        /// Calculates the checksum using <see cref="SHA256"/> algorithm.
-        /// </summary>
+        /// <inheritdoc />
         public Checksum Calculate() => Calculate(SHA256.Create());
 
         /// <inheritdoc />

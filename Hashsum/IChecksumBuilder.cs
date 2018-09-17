@@ -13,47 +13,47 @@ namespace Hashsum
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        ChecksumBuilder Mutate(string value);
+        IChecksumBuilder Mutate(string value);
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        ChecksumBuilder Mutate(char value);
+        IChecksumBuilder Mutate(char value);
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        ChecksumBuilder Mutate(IFormattable value);
+        IChecksumBuilder Mutate(IFormattable value);
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        ChecksumBuilder Mutate(bool value);
+        IChecksumBuilder Mutate(bool value);
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        ChecksumBuilder Mutate(TimeSpan value);
+        IChecksumBuilder Mutate(TimeSpan value);
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        ChecksumBuilder Mutate(DateTime value);
+        IChecksumBuilder Mutate(DateTime value);
 
         /// <summary>
         /// Mutates checksum by given value.
         /// </summary>
-        ChecksumBuilder Mutate(DateTimeOffset value);
+        IChecksumBuilder Mutate(DateTimeOffset value);
 
         /// <summary>
         /// Mutates checksum by given data.
         /// </summary>
-        ChecksumBuilder Mutate(byte[] data);
+        IChecksumBuilder Mutate(byte[] data);
 
         /// <summary>
         /// Mutates checksum by given stream.
         /// </summary>
-        ChecksumBuilder Mutate(Stream stream);
+        IChecksumBuilder Mutate(Stream stream);
 
         /// <summary>
         /// Calculates the checksum using given algorithm.

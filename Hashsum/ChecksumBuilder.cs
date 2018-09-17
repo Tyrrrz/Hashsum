@@ -41,7 +41,7 @@ namespace Hashsum
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(string value)
+        public IChecksumBuilder Mutate(string value)
         {
             value.GuardNotNull(nameof(value));
 
@@ -49,14 +49,14 @@ namespace Hashsum
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(char value)
+        public IChecksumBuilder Mutate(char value)
         {
             var str = value.ToString();
             return Mutate(str);
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(IFormattable value)
+        public IChecksumBuilder Mutate(IFormattable value)
         {
             value.GuardNotNull(nameof(value));
 
@@ -64,35 +64,35 @@ namespace Hashsum
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(bool value)
+        public IChecksumBuilder Mutate(bool value)
         {
             var str = value ? "TRUE" : "FALSE";
             return Mutate(str);
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(TimeSpan value)
+        public IChecksumBuilder Mutate(TimeSpan value)
         {
             var ticks = value.Ticks;
             return Mutate(ticks);
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(DateTime value)
+        public IChecksumBuilder Mutate(DateTime value)
         {
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(DateTimeOffset value)
+        public IChecksumBuilder Mutate(DateTimeOffset value)
         {
             var ticks = value.ToUniversalTime().Ticks;
             return Mutate(ticks);
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(byte[] data)
+        public IChecksumBuilder Mutate(byte[] data)
         {
             data.GuardNotNull(nameof(data));
 
@@ -101,7 +101,7 @@ namespace Hashsum
         }
 
         /// <inheritdoc />
-        public ChecksumBuilder Mutate(Stream stream)
+        public IChecksumBuilder Mutate(Stream stream)
         {
             stream.GuardNotNull(nameof(stream));
 

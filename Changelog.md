@@ -1,3 +1,7 @@
+### v1.2.1 (18-Sep-2018)
+
+- Builder methods now return an instance of `IChecksumBuilder` instead of `ChecksumBuilder`.
+
 ### v1.2 (21-Feb-2018)
 
 - `ChecksumBuilder` is no longer `IDisposable`. Custom hashing algorithm can be supplied as parameter to `Calculate` method.

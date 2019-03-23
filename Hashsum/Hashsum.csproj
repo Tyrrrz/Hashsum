@@ -10,8 +10,8 @@
     <PackageTags>checksum hash builder net core standard</PackageTags>
     <PackageProjectUrl>https://github.com/Tyrrrz/Hashsum</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Tyrrrz/Hashsum/blob/master/Changelog.md</PackageReleaseNotes>
-    <PackageLicenseUrl>https://github.com/Tyrrrz/Hashsum/blob/master/License.txt</PackageLicenseUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/Tyrrrz/Hashsum/master/favicon.png</PackageIconUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/Tyrrrz/Hashsum</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>

@@ -9,7 +9,7 @@ Hashsum is a library for generating checksums based on arbitrary sets of values.
 
 ## Download
 
-- [NuGet](https://nuget.org/packages/Hashsum): `Install-Package Hashsum`
+- [NuGet](https://nuget.org/packages/Hashsum): `dotnet add package Hashsum`
 - [Continuous integration](https://ci.appveyor.com/project/Tyrrrz/Hashsum)
 
 ## Features

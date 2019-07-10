@@ -9,8 +9,11 @@ before_build:
 build:
   verbosity: minimal
 
+after_test:
+- choco install codecov && codecov -f "Hashsum.Tests/bin/%CONFIGURATION%/Coverage.xml" --required
+
 artifacts:
-- path: Hashsum\bin\$(configuration)\Hashsum*.nupkg
+- path: Hashsum/bin/$(configuration)/Hashsum*.nupkg
   name: Hashsum.nupkg
 
 deploy:

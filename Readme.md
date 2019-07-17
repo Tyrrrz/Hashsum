@@ -38,6 +38,7 @@ var checksum = new ChecksumBuilder()
 ## Libraries used
 
 - [NUnit](https://github.com/nunit/nunit)
+- [Coverlet](https://github.com/tonerdo/coverlet)
 
 ## Donate
 

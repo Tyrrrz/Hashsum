@@ -10,7 +10,7 @@
     <PackageTags>checksum hash builder net core standard</PackageTags>
     <PackageProjectUrl>https://github.com/Tyrrrz/Hashsum</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Tyrrrz/Hashsum/blob/master/Changelog.md</PackageReleaseNotes>
-    <PackageIconUrl>https://raw.githubusercontent.com/Tyrrrz/Hashsum/master/favicon.png</PackageIconUrl>
+    <PackageIcon>favicon.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/Tyrrrz/Hashsum</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -18,5 +18,9 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../favicon.png" Pack="True" PackagePath="" />
+  </ItemGroup>
 
 </Project>
